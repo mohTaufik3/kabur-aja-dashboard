@@ -1,16 +1,78 @@
-# React + Vite
+# KaburAjaDulu Sentiment Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Dashboard analisis sentimen dan identifikasi faktor sosial-ekonomi di balik fenomena #KaburAjaDulu menggunakan pendekatan Natural Language Processing.
 
-Currently, two official plugins are available:
+## Tentang Project
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Project ini merupakan Tugas Akhir Program Studi Teknik Informatika Universitas Widyatama.
 
-## React Compiler
+- **Nama**: Mohammad Taufik Hidayatuloh
+- **NPM**: 40622100047
+- **Konsentrasi**: Database
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Latar Belakang
 
-## Expanding the ESLint configuration
+Fenomena **#KaburAjaDulu** mencerminkan kecenderungan masyarakat, khususnya generasi muda, untuk meninggalkan Indonesia dengan berbagai alasan sosial dan ekonomi. Project ini bertujuan untuk menganalisis sentimen publik serta mengidentifikasi topik utama yang mendasari fenomena tersebut berdasarkan data dari media sosial.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Metodologi
+
+Project ini menggunakan framework **CRISP-DM** dengan dua pendekatan utama:
+Model => Fungsi
+IndoBERT => Klasifikasi sentimen (positif, netral, negatif)
+BERTopic => Pemodelan topik isu sosial-ekonomi
+Data dikumpulkan dari platform **X (Twitter)** dan **TikTok** dengan total 22.095 komentar. Analisis divalidasi menggunakan data sekunder dari Badan Pusat Statistik (BPS).
+
+## Tech Stack
+
+### Frontend:
+
+- React 19 + Vite
+- Tailwind CSS v4
+- Recharts (visualisasi data)
+- React Router DOM
+- Lucide React
+
+### Backend (dalam pengembangan):
+
+- FastAPI (Python)
+- HuggingFace Transformers (IndoBERT)
+- BERTopic
+
+## Cara Menjalankan Project
+
+### Clone repository
+
+git clone https://github.com/mohTaufik3/kabur-aja-dashboard.git
+
+### Masuk ke folder project
+
+cd kabur-aja-dashboard
+
+### Install dependencies
+
+npm install
+
+### Jalankan development server
+
+npm run dev
+
+### Akses aplikasi melalui:
+
+http://localhost:5173
+
+## Fitur
+
+- Dashboard overview (statistik utama, distribusi sentimen, topik dominan)
+- Analisis sentimen dengan visualisasi interaktif (dalam pengembangan)
+- Topic explorer berbasis BERTopic (dalam pengembangan)
+- Perbandingan dengan data BPS (dalam pengembangan)
+- Integrasi backend FastAPI (dalam pengembangan)
+- Integrasi model IndoBERT dan BERTopic (dalam pengembangan)
+
+## Status Project
+
+Project ini masih dalam tahap pengembangan aktif, khususnya pada bagian backend dan integrasi model machine learning.
+
+## Lisensi
+
+Project ini dibuat untuk keperluan akademik di Universitas Widyatama tahun 2026.
