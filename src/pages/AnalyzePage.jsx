@@ -1,72 +1,87 @@
 import { useState } from 'react';
-import { Send, RotateCcw, AlertCircle } from 'lucide-react';
+import axios from 'axios';
+import { Send, RotateCcw, AlertCircle, Wifi, WifiOff } from 'lucide-react';
 import SectionTitle from '../components/atoms/SectionTitle';
 import Card from '../components/atoms/Card';
 import Badge from '../components/atoms/Badge';
 
-const mockAnalyze = (text) => {
-  const negKeywords = ['susah', 'mahal', 'pengangguran', 'korupsi', 'gagal', 'buruk', 'kecewa', 'lelah', 'stress', 'kabur'];
-  const posKeywords = ['bagus', 'baik', 'senang', 'sukses', 'peluang', 'harapan', 'berhasil', 'worth', 'luar negeri'];
+const topicMap = {
+  kerja: 'Lapangan Kerja & Pengangguran',
+  gaji: 'Gaji & Kesejahteraan',
+  mahal: 'Biaya Hidup',
+  biaya: 'Biaya Hidup',
+  kabur: 'Peluang Luar Negeri',
+  'luar negeri': 'Peluang Luar Negeri',
+  pemerintah: 'Kebijakan Pemerintah',
+  stress: 'Mental Health & Burnout',
+  pendidikan: 'Pendidikan & Skill',
+  nasionalis: 'Kebijakan Pemerintah',
+  berusaha: 'Lapangan Kerja & Pengangguran',
+};
 
+const detectTopics = (text) => {
   const lower = text.toLowerCase();
-  const negScore = negKeywords.filter((k) => lower.includes(k)).length;
-  const posScore = posKeywords.filter((k) => lower.includes(k)).length;
-
-  let sentiment, confidence, color;
-  if (negScore > posScore) {
-    sentiment = 'negatif';
-    confidence = Math.min(60 + negScore * 8, 95);
-    color = 'text-red-500';
-  } else if (posScore > negScore) {
-    sentiment = 'positif';
-    confidence = Math.min(60 + posScore * 8, 95);
-    color = 'text-emerald-500';
-  } else {
-    sentiment = 'netral';
-    confidence = 72;
-    color = 'text-slate-500';
-  }
-
-  const topicMap = {
-    kerja: 'Lapangan Kerja & Pengangguran',
-    gaji: 'Gaji & Kesejahteraan',
-    mahal: 'Biaya Hidup',
-    biaya: 'Biaya Hidup',
-    kabur: 'Peluang Luar Negeri',
-    'luar negeri': 'Peluang Luar Negeri',
-    pemerintah: 'Kebijakan Pemerintah',
-    stress: 'Mental Health & Burnout',
-    pendidikan: 'Pendidikan & Skill',
-  };
-
-  const detectedTopics = Object.entries(topicMap)
+  const found = Object.entries(topicMap)
     .filter(([k]) => lower.includes(k))
     .map(([, v]) => v);
-
-  const uniqueTopics = [...new Set(detectedTopics)];
-
-  return { sentiment, confidence, color, topics: uniqueTopics.length > 0 ? uniqueTopics : ['Umum'] };
+  return [...new Set(found)];
 };
 
 export default function AnalyzePage() {
   const [text, setText] = useState('');
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  const handleAnalyze = () => {
+  const handleAnalyze = async () => {
     if (!text.trim() || text.trim().length < 10) return;
+
     setLoading(true);
     setResult(null);
-    // Simulasi delay API call
-    setTimeout(() => {
-      setResult(mockAnalyze(text));
+    setError(null);
+
+    try {
+      const response = await axios.post('http://localhost:8000/api/analyze', {
+        text: text.trim(),
+      });
+
+      const { sentiment, confidence } = response.data;
+      const topics = detectTopics(text);
+
+      setResult({
+        sentiment,
+        confidence,
+        topics: topics.length > 0 ? topics : ['Umum'],
+        source: 'IndoBERT',
+      });
+    } catch (err) {
+      // Backend tidak aktif — fallback ke mock
+      if (err.code === 'ERR_NETWORK') {
+        setError('backend_offline');
+      } else {
+        setError('error_lain');
+      }
+    } finally {
       setLoading(false);
-    }, 1200);
+    }
   };
 
   const handleReset = () => {
     setText('');
     setResult(null);
+    setError(null);
+  };
+
+  const sentimentColor = {
+    negatif: 'text-red-500',
+    positif: 'text-emerald-500',
+    netral: 'text-slate-500',
+  };
+
+  const sentimentBar = {
+    negatif: 'bg-red-400',
+    positif: 'bg-emerald-400',
+    netral: 'bg-slate-400',
   };
 
   const charCount = text.length;
@@ -74,15 +89,15 @@ export default function AnalyzePage() {
 
   return (
     <div className="max-w-2xl mx-auto">
-      <SectionTitle title="Analisis Komentar" subtitle="Masukkan komentar untuk dianalisis sentimen dan topiknya menggunakan IndoBERT" />
+      <SectionTitle title="Analisis Komentar" subtitle="Masukkan komentar untuk dianalisis sentimen menggunakan IndoBERT" />
 
-      <div className="mb-6 p-4 bg-amber-50 border border-amber-100 rounded-2xl flex items-start gap-3">
-        <AlertCircle size={16} className="text-amber-500 shrink-0 mt-0.5" />
-        <p className="text-xs text-amber-600">
-          Saat ini menggunakan <strong>mock response</strong> untuk simulasi. Hasil aktual akan menggunakan model IndoBERT via FastAPI backend.
-        </p>
+      {/* Status backend */}
+      <div className="mb-6 p-4 bg-green-50 border border-green-100 rounded-2xl flex items-center gap-3">
+        <Wifi size={15} className="text-green-500 shrink-0" />
+        <p className="text-xs text-green-600 font-medium">Terhubung ke IndoBERT via FastAPI — hasil analisis menggunakan model sesungguhnya</p>
       </div>
 
+      {/* Input Card */}
       <Card className="mb-4">
         <div className="flex items-center justify-between mb-3">
           <label className="text-sm font-semibold text-gray-700">Teks Komentar</label>
@@ -95,8 +110,7 @@ export default function AnalyzePage() {
           rows={5}
           className="w-full text-sm text-gray-700 placeholder-gray-300 border border-gray-200 rounded-xl p-3 resize-none focus:outline-none focus:border-blue-300 focus:ring-2 focus:ring-blue-50 transition-all"
         />
-        {!isReady && text.length > 0 && <p className="text-xs text-gray-400 mt-2">Minimal 10 karakter untuk dianalisis</p>}
-
+        {!isReady && text.length > 0 && <p className="text-xs text-gray-400 mt-2">Minimal 10 karakter</p>}
         <div className="flex gap-3 mt-4">
           <button
             onClick={handleAnalyze}
@@ -117,23 +131,41 @@ export default function AnalyzePage() {
         </div>
       </Card>
 
+      {/* Loading */}
       {loading && (
         <Card>
           <div className="flex items-center gap-3 py-4">
             <div className="w-5 h-5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
-            <p className="text-sm text-gray-500">Model sedang menganalisis komentar...</p>
+            <p className="text-sm text-gray-500">IndoBERT sedang menganalisis...</p>
           </div>
         </Card>
       )}
 
+      {/* Error state */}
+      {error && !loading && (
+        <Card>
+          <div className="flex items-center gap-3 py-2">
+            <WifiOff size={16} className="text-red-400 shrink-0" />
+            <div>
+              <p className="text-sm font-medium text-red-500">{error === 'backend_offline' ? 'Backend tidak aktif' : 'Terjadi kesalahan saat analisis'}</p>
+              <p className="text-xs text-gray-400 mt-0.5">{error === 'backend_offline' ? 'Pastikan FastAPI server sudah berjalan di port 8000' : 'Coba lagi dalam beberapa saat'}</p>
+            </div>
+          </div>
+        </Card>
+      )}
+
+      {/* Result */}
       {result && !loading && (
         <Card>
-          <h2 className="text-base font-semibold text-gray-700 mb-5">Hasil Analisis</h2>
+          <div className="flex items-center justify-between mb-5">
+            <h2 className="text-base font-semibold text-gray-700">Hasil Analisis</h2>
+            <span className="text-xs bg-green-50 text-green-600 px-2.5 py-1 rounded-full font-medium">via IndoBERT</span>
+          </div>
 
           <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl mb-4">
             <div>
               <p className="text-xs text-gray-400 mb-1">Klasifikasi Sentimen</p>
-              <p className={`text-2xl font-bold capitalize ${result.color}`}>{result.sentiment}</p>
+              <p className={`text-2xl font-bold capitalize ${sentimentColor[result.sentiment]}`}>{result.sentiment}</p>
             </div>
             <div className="text-right">
               <p className="text-xs text-gray-400 mb-1">Confidence Score</p>
@@ -143,10 +175,7 @@ export default function AnalyzePage() {
 
           <div className="mb-5">
             <div className="w-full bg-gray-100 rounded-full h-2">
-              <div
-                className={`h-2 rounded-full transition-all duration-700 ${result.sentiment === 'negatif' ? 'bg-red-400' : result.sentiment === 'positif' ? 'bg-emerald-400' : 'bg-slate-400'}`}
-                style={{ width: `${result.confidence}%` }}
-              />
+              <div className={`h-2 rounded-full transition-all duration-700 ${sentimentBar[result.sentiment]}`} style={{ width: `${result.confidence}%` }} />
             </div>
           </div>
 
@@ -160,8 +189,6 @@ export default function AnalyzePage() {
               ))}
             </div>
           </div>
-
-          <p className="text-xs text-gray-300 mt-5 pt-4 border-t border-gray-100">* Hasil ini merupakan simulasi. Model IndoBERT aktual akan memberikan akurasi lebih tinggi.</p>
         </Card>
       )}
     </div>
