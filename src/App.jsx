@@ -4,6 +4,7 @@ import DashboardPage from './pages/DashboardPage';
 import SentimentPage from './pages/SentimentPage';
 import TopicPage from './pages/TopicPage';
 import BpsPage from './pages/BpsPage';
+import AnalyzePage from './pages/AnalyzePage';
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
             <Route path="/sentiment" element={<SentimentPage />} />
             <Route path="/topic" element={<TopicPage />} />
             <Route path="/bps" element={<BpsPage />} />
+            <Route path="/analyze" element={<AnalyzePage />} />
           </Routes>
         </main>
       </div>

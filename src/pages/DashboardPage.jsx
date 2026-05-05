@@ -1,16 +1,29 @@
+import { useNavigate } from 'react-router-dom';
+import { Users, TrendingDown, Minus, TrendingUp, ArrowRight, Sparkles } from 'lucide-react';
 import SectionTitle from '../components/atoms/SectionTitle';
 import StatCard from '../components/molecules/StatCard';
 import Badge from '../components/atoms/Badge';
 import Card from '../components/atoms/Card';
-import { Users, TrendingDown, Minus, TrendingUp, ArrowRight } from 'lucide-react';
 import { sentimentSummary, topTopics, sentimentDistribution, platformSources } from '../data/mockData';
 
 const DashboardPage = () => {
+  const navigate = useNavigate();
+
   return (
     <div>
       <SectionTitle title="Dashboard Overview" subtitle="Analisis sentimen #KaburAjaDulu dari platform X dan TikTok" />
 
-      {/* Stat Cards */}
+      <div className="mb-8 p-5 bg-blue-600 rounded-2xl flex items-center justify-between">
+        <div>
+          <p className="text-white font-semibold text-base">Coba Analisis Komentar</p>
+          <p className="text-blue-200 text-sm mt-0.5">Input komentar dan lihat hasil sentimen secara langsung</p>
+        </div>
+        <button onClick={() => navigate('/analyze')} className="flex items-center gap-2 bg-white text-blue-600 font-semibold text-sm px-5 py-2.5 rounded-xl hover:bg-blue-50 transition-colors">
+          <Sparkles size={15} />
+          Coba Sekarang
+        </button>
+      </div>
+
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <StatCard label="Total Data" value={sentimentSummary.total} icon={Users} bgIcon="bg-blue-50" colorIcon="text-blue-400" />
         <StatCard label="Negatif" value={sentimentSummary.negative} color="text-red-500" icon={TrendingDown} bgIcon="bg-red-50" colorIcon="text-red-400" />
@@ -18,13 +31,11 @@ const DashboardPage = () => {
         <StatCard label="Positif" value={sentimentSummary.positive} color="text-emerald-500" icon={TrendingUp} bgIcon="bg-emerald-50" colorIcon="text-emerald-400" />
       </div>
 
-      {/* Bottom Row */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Top Topics */}
         <Card>
           <div className="flex items-center justify-between mb-5">
             <h2 className="text-base font-semibold text-gray-700">Topik Dominan</h2>
-            <span className="text-xs text-blue-500 flex items-center gap-1 cursor-pointer hover:underline">
+            <span onClick={() => navigate('/topic')} className="text-xs text-blue-500 flex items-center gap-1 cursor-pointer hover:underline">
               Lihat semua <ArrowRight size={12} />
             </span>
           </div>
@@ -44,7 +55,6 @@ const DashboardPage = () => {
           </div>
         </Card>
 
-        {/* Sentiment Distribution Summary */}
         <Card>
           <h2 className="text-base font-semibold text-gray-700 mb-5">Distribusi Sentimen</h2>
           <div className="flex flex-col gap-4">
