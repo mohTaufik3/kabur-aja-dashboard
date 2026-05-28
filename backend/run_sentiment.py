@@ -51,9 +51,7 @@ df["confidence"] = [r["confidence"] for r in results]
 
 df.to_csv("data/sentiment_results.csv", index=False)
 
-print("\nSelesai! Tersimpan di data/sentiment_results.csv")
 print("\nDistribusi sentimen:")
 print(df["sentiment"].value_counts().to_string())
 print(f"\nRata-rata confidence: {df['confidence'].mean():.2f}%")
-print("\nPer platform:")
 print(df.groupby(["platform", "sentiment"]).size().to_string())

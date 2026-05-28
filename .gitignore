@@ -24,4 +24,4 @@ dist-ssr
 *.sw?
 
 # Di file .gitignore (root project)
-backend/data/
+backend/data/*.csv

@@ -87,18 +87,8 @@ export const topicData = [
 ];
 
 export const sentimentByPlatform = [
-  {
-    platform: 'Platform X',
-    positif: 1823,
-    netral: 2541,
-    negatif: 5732,
-  },
-  {
-    platform: 'Tiktok',
-    positif: 1297,
-    netral: 2889,
-    negatif: 7813,
-  },
+  { platform: 'Platform X', positif: 1513, netral: 1248, negatif: 5740 },
+  { platform: 'TikTok', positif: 2670, netral: 2344, negatif: 5465 },
 ];
 
 export const sentimentTimeline = [
@@ -121,16 +111,16 @@ export const sampleComments = [
 ];
 
 export const sentimentSummary = {
-  total: 22095,
-  positive: 3120,
-  neutral: 5430,
-  negative: 13545,
+  total: 18980,
+  positive: 4183,
+  neutral: 3592,
+  negative: 11205,
 };
 
 export const sentimentChartData = [
-  { name: 'Positif', value: 3120, color: '#22c55e' },
-  { name: 'Netral', value: 5430, color: '#94a3b8' },
-  { name: 'Negatif', value: 13545, color: '#ef4444' },
+  { name: 'Positif', value: 4183, color: '#22c55e' },
+  { name: 'Netral', value: 3592, color: '#94a3b8' },
+  { name: 'Negatif', value: 11205, color: '#ef4444' },
 ];
 
 export const topTopics = [
@@ -141,14 +131,13 @@ export const topTopics = [
   { topic: 'Harapan Luar Negeri', count: 1654, sentiment: 'positif' },
 ];
 
-// Yang tadi inline di DashboardPage, sekarang pindah ke sini
 export const sentimentDistribution = [
-  { label: 'Negatif', value: 13545, color: 'bg-red-400' },
-  { label: 'Netral', value: 5430, color: 'bg-slate-300' },
-  { label: 'Positif', value: 3120, color: 'bg-emerald-400' },
+  { label: 'Negatif', value: 11205, color: 'bg-red-400' },
+  { label: 'Netral', value: 3592, color: 'bg-slate-300' },
+  { label: 'Positif', value: 4183, color: 'bg-emerald-400' },
 ];
 
 export const platformSources = [
-  { label: 'Platform X', value: 10096, colorText: 'text-blue-600', colorBg: 'bg-blue-50', colorSub: 'text-blue-400' },
-  { label: 'TikTok', value: 11999, colorText: 'text-pink-500', colorBg: 'bg-pink-50', colorSub: 'text-pink-400' },
+  { label: 'Platform X', value: 8501, colorText: 'text-blue-600', colorBg: 'bg-blue-50', colorSub: 'text-blue-400' },
+  { label: 'TikTok', value: 10479, colorText: 'text-pink-500', colorBg: 'bg-pink-50', colorSub: 'text-pink-400' },
 ];
