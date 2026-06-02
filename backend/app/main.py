@@ -1,15 +1,15 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers import analyze
+from app.routers import analyze, bps, topics 
 from app.models import get_sentiment_pipeline
 from dotenv import load_dotenv
 
 load_dotenv()
 
 app = FastAPI(
-    title="KaburAjaDulu Sentiment API",
-    description="API untuk analisis sentimen dan topik menggunakan IndoBERT",
-    version="1.0.0"
+    title="KaburAjaDulu Sentiment & BPS API",
+    description="API untuk analisis sentimen, topik menggunakan IndoBERT & BERTopic, serta sinkronisasi data BPS",
+    version="2.0.0"
 )
 
 app.add_middleware(
@@ -20,7 +20,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(analyze.router, prefix="/api")
+app.include_router(analyze.router, prefix="/api") 
+app.include_router(bps.router)
+app.include_router(topics.router)
 
 @app.on_event("startup")
 async def startup_event():
@@ -30,4 +32,4 @@ async def startup_event():
 
 @app.get("/")
 def root():
-    return {"message": "KaburAjaDulu Sentiment API is running"}
+    return {"message": "KaburAjaDulu Sentiment and BPS Integration API is running"}
