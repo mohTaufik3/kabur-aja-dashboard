@@ -25,3 +25,6 @@ dist-ssr
 
 # Di file .gitignore (root project)
 backend/data/
+
+__pycache__/
+*.pyc

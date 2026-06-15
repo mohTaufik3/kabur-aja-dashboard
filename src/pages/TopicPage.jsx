@@ -3,7 +3,7 @@ import SectionTitle from '../components/atoms/SectionTitle';
 import Card from '../components/atoms/Card';
 import Badge from '../components/atoms/Badge';
 import TopicVolumeChart from '../components/organisms/TopicVolumeChart';
-import { ChevronDown, ChevronUp, Loader2 } from 'lucide-react';
+import { ChevronDown, ChevronUp, Loader2, MessageSquare } from 'lucide-react';
 
 export default function TopicPage() {
   const [topics, setTopics] = useState([]);
@@ -44,7 +44,6 @@ export default function TopicPage() {
     return <div className="p-4 bg-red-50 border border-red-200 text-red-700 rounded-2xl text-sm">{error}</div>;
   }
 
-  // Perbaikan logika filter menggunakan dominant_sentiment dari backend v2
   const filtered = filter === 'Semua' ? topics : topics.filter((t) => t.dominant_sentiment && t.dominant_sentiment.toLowerCase() === filter.toLowerCase());
 
   return (
@@ -78,17 +77,18 @@ export default function TopicPage() {
             keywordsArray = topic.keywords_clean.split(',').map((kw) => kw.trim());
           } else if (Array.isArray(topic.keywords_clean)) {
             keywordsArray = topic.keywords_clean;
-          } else {
-            keywordsArray = typeof topicName === 'string' ? topicName.split(' ') : [];
+          } else if (Array.isArray(topic.keywords)) {
+            keywordsArray = topic.keywords;
           }
 
           const sentimentLabel = topic.dominant_sentiment || 'Campuran';
+          const realComments = topic.sample_comments || [];
 
           return (
             <Card key={index} className="cursor-pointer hover:shadow-md transition-shadow">
               <div className="flex items-center justify-between" onClick={() => setExpanded(expanded === currentId ? null : currentId)}>
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center">
+                  <div className="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center shrink-0">
                     <span className="text-xs font-bold text-blue-500">#{currentId}</span>
                   </div>
                   <div>
@@ -96,24 +96,47 @@ export default function TopicPage() {
                     <p className="text-xs text-gray-400">{(topic.total || 0).toLocaleString('id-ID')} komentar</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 shrink-0">
                   <Badge label={sentimentLabel} variant={sentimentLabel.toLowerCase()} />
                   {expanded === currentId ? <ChevronUp size={15} className="text-gray-400" /> : <ChevronDown size={15} className="text-gray-400" />}
                 </div>
               </div>
 
               {expanded === currentId && (
-                <div className="mt-4 pt-4 border-t border-gray-100">
-                  <p className="text-sm text-gray-600 mb-3">
-                    Topik ini mendominasi kluster obrolan publik dan diklasifikasikan ke dalam sektor BPS: <span className="font-semibold text-blue-600">{topic.bps_category || 'Umum'}</span>.
-                  </p>
-                  <p className="text-xs text-gray-400 font-medium mb-2">Keyword Dominan:</p>
-                  <div className="flex flex-wrap gap-2">
-                    {keywordsArray.map((kw, i) => (
-                      <span key={i} className="text-xs bg-blue-50 text-blue-600 px-2.5 py-1 rounded-full font-medium">
-                        {kw}
-                      </span>
-                    ))}
+                <div className="mt-4 pt-4 border-t border-gray-100 space-y-4">
+                  <div>
+                    <p className="text-sm text-gray-600 mb-1">
+                      Topik ini mendominasi kluster obrolan publik dan diklasifikasikan ke dalam sektor BPS: <span className="font-semibold text-blue-600">{topic.bps_category || 'Umum'}</span>.
+                    </p>
+                  </div>
+
+                  <div>
+                    <p className="text-xs text-gray-400 font-medium mb-2">Keyword Dominan:</p>
+                    <div className="flex flex-wrap gap-2">
+                      {keywordsArray.map((kw, i) => (
+                        <span key={i} className="text-xs bg-blue-50 text-blue-600 px-2.5 py-1 rounded-full font-medium">
+                          {kw}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <p className="text-xs font-medium text-gray-500 mb-2 flex items-center gap-1">
+                      <MessageSquare size={12} className="text-blue-500" />
+                      Sampel Komentar Asli Dataset (Kualitatif)
+                    </p>
+                    <div className="flex flex-col gap-2">
+                      {realComments.length > 0 ? (
+                        realComments.map((comment, idx) => (
+                          <div key={idx} className="bg-gray-50 border border-gray-100 rounded-xl p-2.5">
+                            <p className="text-xs text-gray-600 italic">"{comment}"</p>
+                          </div>
+                        ))
+                      ) : (
+                        <p className="text-xs text-gray-400 italic p-1">Tidak ada sampel komentar untuk kluster ini.</p>
+                      )}
+                    </div>
                   </div>
                 </div>
               )}
