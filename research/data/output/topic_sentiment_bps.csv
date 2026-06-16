@@ -1,0 +1,91 @@
+topic_id_v2,negatif,netral,positif,total,pct_negatif,pct_positif,pct_netral,dominant_sentiment,topic_label,keywords_clean,bps_category,rank
+0,1906,334,365,2605,73.2,14.0,12.8,negatif,Nasionalis Dpr Hastag Rakyat,"nasionalis, dpr, hastag, rakyat, anggota, iya",Kebijakan Pemerintah,1
+1,1727,36,145,1908,90.5,7.6,1.9,negatif,Percaya Pemerintah Percaya Pemerintah Rakyat,"percaya, pemerintah, percaya pemerintah, rakyat, pemerintah percaya, rakyat percaya",Kebijakan Pemerintah,2
+2,743,137,204,1084,68.5,18.8,12.6,negatif,Indonesia Indonesiagelap Gelap Cinta,"indonesia, indonesiagelap, gelap, cinta, indonesian, gelap yuki",Lainnya,3
+3,424,217,228,869,48.8,26.2,25.0,negatif,Kerja Negeri Negeri Kerja Negeri Kerja,"kerja negeri, negeri, kerja, negeri kerja, pengen kerja, cari",Ketenagakerjaan,4
+4,160,166,125,451,35.5,27.7,36.8,netral,Jepang Bahasa Belajar Lpk,"jepang, bahasa, belajar, lpk, belajar bahasa, japan",Migrasi & Ketenagakerjaan LN,5
+5,259,28,62,349,74.2,17.8,8.0,negatif,Indo Kerja Indo Indo Kerja Kerja,"indo, kerja indo, indo kerja, kerja, gaji, org",Ketenagakerjaan,6
+6,258,20,48,326,79.1,14.7,6.1,negatif,Nasionalisme Meragukan Nasionalis Bahlil,"nasionalisme, meragukan, nasionalis, bahlil, korupsi, pejabat",Kebijakan Pemerintah,7
+7,146,51,37,234,62.4,15.8,21.8,negatif,Gaji Jt Gajinya Bercanda,"gaji, jt, gajinya, bercanda, gaji jt, serius",Upah & Kesejahteraan,8
+8,107,53,43,203,52.7,21.2,26.1,negatif,Malaysia Singapore Malay Singapura,"malaysia, singapore, malay, singapura, susanti, taiwan",Migrasi & Ketenagakerjaan LN,9
+9,133,28,31,192,69.3,16.1,14.6,negatif,Duit Uang Cari Uang Lulus,"duit, uang, cari uang, lulus, cari, biaya",Ketenagakerjaan,10
+10,116,16,36,168,69.0,21.4,9.5,negatif,Negara Negara Negara Country Negara Maju,"negara, negara negara, country, negara maju, this country, nya negara",Lainnya,11
+11,113,33,21,167,67.7,12.6,19.8,negatif,Duit Dana Uang Duitnya,"duit, dana, uang, duitnya, duit duit, dana talang",Upah & Kesejahteraan,12
+12,120,20,19,159,75.5,11.9,12.6,negatif,Meragukan Yok Minimal Ijasah,"meragukan, yok, minimal, ijasah, bukannya, umr",Upah & Kesejahteraan,13
+13,110,24,24,158,69.6,15.2,15.2,negatif,Kakak Saingan Ngomong Iri,"kakak, saingan, ngomong, iri, bicara, pengecut",Lainnya,14
+14,77,43,33,153,50.3,21.6,28.1,negatif,Laki Abang Saudara Saudara Laki,"laki, abang, saudara, saudara laki, laki laki, adik",Lainnya,15
+15,62,26,47,135,45.9,34.8,19.3,negatif,Trend Trend Nya Ikutan Trend Trendnya,"trend, trend nya, ikutan trend, trendnya, ikutan, berakhir",Lainnya,16
+16,0,76,44,120,0.0,36.7,63.3,netral,Diakui Menteri Negeri Internasional Menteri,"diakui, menteri negeri, internasional, menteri, hingga, panggung",Migrasi & Ketenagakerjaan LN,17
+17,59,28,26,113,52.2,23.0,24.8,negatif,Bahasa Bahasa Asing Asing Belajar Bahasa,"bahasa, bahasa asing, asing, belajar bahasa, belajar, bahasanya",Lainnya,18
+18,31,23,56,110,28.2,50.9,20.9,positif,Kocak Aamiin Bjirr Putra,"kocak, aamiin, bjirr, putra, melbourne, tulisan",Lainnya,19
+19,45,34,25,104,43.3,24.0,32.7,negatif,Belajar Bahasa Bahasa Kuliah Belajar,"belajar bahasa, bahasa, kuliah, belajar, beasiswa, kewarganegaraan",Pendidikan,20
+20,61,21,18,100,61.0,18.0,21.0,negatif,Susah Susah Kerja Kerja Kerjain,"susah, susah kerja, kerja, kerjain, susah nya, kerja susah",Ketenagakerjaan,21
+21,32,39,29,100,32.0,29.0,39.0,netral,Bangg Mantap Lagu Banggg,"bangg, mantap, lagu, banggg, culik, lanjutkan",Lainnya,22
+22,36,33,28,97,37.1,28.9,34.0,negatif,Korea Selatan Ijasah Smp,"korea, selatan, ijasah, smp, tunggu, pindah",Pendidikan,23
+23,6,88,0,94,6.4,0.0,93.6,netral,Dpr Kunjungan Kerja Kunjungan Tunjangan,"dpr, kunjungan kerja, kunjungan, tunjangan, anggota, dpr ri",Ketenagakerjaan,24
+24,53,19,22,94,56.4,23.4,20.2,negatif,Semangat Usahakan Bahlil Ilmu,"semangat, usahakan, bahlil, ilmu, hargai, tetangga",Lainnya,25
+25,83,8,2,93,89.2,2.2,8.6,negatif,Duit Uang Uang Uang Duitnya,"duit, uang, uang uang, duitnya, pengen, modal",Upah & Kesejahteraan,26
+26,55,22,15,92,59.8,16.3,23.9,negatif,Gas Gass Oke Gasss,"gas, gass, oke, gasss, yok, menyusul",Lainnya,27
+27,57,23,11,91,62.6,12.1,25.3,negatif,Umur Tua Usia Max,"umur, tua, usia, max, batasan, muda",Ketenagakerjaan,28
+28,9,15,67,91,9.9,73.6,16.5,positif,Benar Benar Banget Iya Benar Iya Iya,"benar, benar banget, iya benar, iya iya, setuju, benar benar",Lainnya,29
+29,74,8,6,88,84.1,6.8,9.1,negatif,Pindah Kbur Kaburnya Pengen,"pindah, kbur, kaburnya, pengen, menyelamatkan, pengen keluar",Migrasi & Ketenagakerjaan LN,30
+30,8,10,70,88,9.1,79.5,11.4,positif,Terima Kasih Terima Kasih Semoga,"terima kasih, terima, kasih, semoga, semoga lancar, bahagia",Lainnya,31
+31,38,32,14,84,45.2,16.7,38.1,negatif,Sekolah Lulus Kuliah Lulus Sekolah,"sekolah, lulus, kuliah, lulus sekolah, tunggu, ijazah",Ketenagakerjaan,32
+32,30,28,22,80,37.5,27.5,35.0,negatif,Jerman German Ausbildung Eropa,"jerman, german, ausbildung, eropa, bahasa, belajar bahasa",Migrasi & Ketenagakerjaan LN,33
+33,18,25,35,78,23.1,44.9,32.1,positif,Bismillah Semoga Tunggu Doain,"bismillah, semoga, tunggu, doain, musim, insyaallah",Lainnya,34
+34,46,19,13,78,59.0,16.7,24.4,negatif,Anak Emak Anakku Ibu,"anak, emak, anakku, ibu, aamiin, bawa anak",Lainnya,35
+35,19,10,47,76,25.0,61.8,13.2,positif,Allah Iya Allah Doa Bismillah Iya,"allah, iya allah, doa, bismillah iya, bismillah, allah pengen",Lainnya,36
+36,39,21,13,73,53.4,17.8,28.8,negatif,Inggris Bahasa Inggris Bahasa English,"inggris, bahasa inggris, bahasa, english, london, lancar bahasa",Lainnya,37
+37,44,19,8,71,62.0,11.3,26.8,negatif,Hashtag Tagar Viral Pakai Hashtag,"hashtag, tagar, viral, pakai hashtag, pakai, kakk",Lainnya,38
+38,7,35,28,70,10.0,40.0,50.0,netral,Tunggu One Day Day One,"tunggu, one day, day, one, soon, allah",Lainnya,39
+39,62,3,4,69,89.9,5.8,4.3,negatif,Anjing Banget Anjing Iya Anjing Pengecut,"anjing, banget anjing, iya anjing, pengecut, dpr, buang",Upah & Kesejahteraan,40
+40,0,1,66,67,0.0,98.5,1.5,positif,Kemitraan Perkuat Global Desa,"kemitraan, perkuat, global, desa, teknologi, kelebihan",Lainnya,41
+41,37,19,10,66,56.1,15.2,28.8,negatif,Thailand Thai Market Way Jalan,"thailand, thai, market, way jalan, on way, way",Lainnya,42
+42,44,1,20,65,67.7,30.8,1.5,negatif,Kaya Kaya Kaya Kaya Gini Saingan,"kaya, kaya kaya, kaya gini, saingan, kaya raya, kekayaan",Lainnya,43
+43,4,54,2,60,6.7,3.3,90.0,netral,Way Jalan On Way Way On,"way jalan, on way, way, on, jalan, lulus",Ketenagakerjaan,44
+44,19,29,10,58,32.8,17.2,50.0,netral,Ajak Pls Biarin Kaburrr,"ajak, pls, biarin, kaburrr, bawa, plss",Lainnya,45
+45,24,8,25,57,42.1,43.9,14.0,positif,Pelan Pelan Pelan Bnget Menyala,"pelan, pelan pelan, bnget, menyala, ikutt, bertahan",Lainnya,46
+46,31,10,16,57,54.4,28.1,17.5,negatif,Keluarga Bawa Menyerah Kesana,"keluarga, bawa, menyerah, kesana, keluarganya, ibu",Lainnya,47
+47,46,7,3,56,82.1,5.4,12.5,negatif,Ajakin Ajak Seandainya Story,"ajakin, ajak, seandainya, story, belanda, please",Lainnya,48
+48,0,4,51,55,0.0,92.7,7.3,positif,Modal Negeri Perkuat Kemitraan Global,"modal negeri, perkuat, kemitraan, global, modal, sungguh",Migrasi & Ketenagakerjaan LN,49
+49,25,9,20,54,46.3,37.0,16.7,negatif,Banget Apanya Nihh Benar Banget,"banget, apanya, nihh, benar banget, asli, benar",Lainnya,50
+50,29,11,13,53,54.7,24.5,20.8,negatif,Plis Pen Pliss Plisss,"plis, pen, pliss, plisss, ajak, dokumen",Lainnya,51
+51,31,6,15,52,59.6,28.8,11.5,negatif,Takut Takutnya Nyusul Tanggung,"takut, takutnya, nyusul, tanggung, jiwa, mental",Lainnya,52
+52,18,3,31,52,34.6,59.6,5.8,positif,Ente Bahlil Sabi Kadang,"ente, bahlil, sabi, kadang, sama², iyaaa",Lainnya,53
+53,40,7,4,51,78.4,7.8,13.7,negatif,Pajak Bayar Pajak Bayar Berkurang,"pajak, bayar pajak, bayar, berkurang, kena pajak, bpjs",Kebijakan Pemerintah,54
+54,42,5,4,51,82.4,7.8,9.8,negatif,Duit Duit Duit Dana Uang,"duit, duit duit, dana, uang, ngumpulin, dompet",Upah & Kesejahteraan,55
+55,33,10,6,49,67.3,12.2,20.4,negatif,Ajak Berusaha Peduli Banget,"ajak, berusaha, peduli, banget, diriku, bilek",Lainnya,56
+56,8,39,2,49,16.3,4.1,79.6,netral,Informasi Website Informasi Loker Loker,"informasi, website, informasi loker, loker, belanda, abang",Ketenagakerjaan,57
+57,30,6,12,48,62.5,25.0,12.5,negatif,Bersaing Kalah Laki Ordal,"bersaing, kalah, laki, ordal, org org, segi",Lainnya,58
+58,0,5,42,47,0.0,89.4,10.6,positif,Kunci Isi Modern Semangat,"kunci, isi, modern, semangat, maju, benar benar",Lainnya,59
+59,7,16,23,46,15.2,50.0,34.8,positif,Bismillah Nyusul Bismillah Iya Bismillah Semoga,"bismillah, nyusul, bismillah iya, bismillah semoga, semoga, secepatnya",Lainnya,60
+60,34,6,3,43,79.1,7.0,14.0,negatif,Pejabat Admin Pejabatnya Kaya,"pejabat, admin, pejabatnya, kaya, kaya pejabat, slot",Lainnya,61
+61,15,25,2,42,35.7,4.8,59.5,netral,Paspor Visa Bikin Paspor Rencana,"paspor, visa, bikin paspor, rencana, permit, njir",Lainnya,62
+62,39,1,2,42,92.9,4.8,2.4,negatif,Tikus Sehat Negara Sakit Sakit,"tikus, sehat, negara sakit, sakit, dipaksa, garuda",Lainnya,63
+63,25,11,6,42,59.5,14.3,26.2,negatif,Ayam Ikan Tagar Le,"ayam, ikan, tagar, le, petenteng, petantang petenteng",Lainnya,64
+64,40,0,2,42,95.2,4.8,0.0,negatif,Miskin Kaya Negara Kaya Kaya Kaya,"miskin, kaya, negara kaya, kaya kaya, kaya pejabat, negara",Lainnya,65
+65,12,0,30,42,28.6,71.4,0.0,positif,Mauuu Hahahaha Yauda Lahhh,"mauuu, hahahaha, yauda, lahhh, huhuhu, kakkk",Lainnya,66
+66,29,7,6,42,69.0,14.3,16.7,negatif,China Cina Ceo Project,"china, cina, ceo, project, indo, populasi",Lainnya,67
+67,0,41,0,41,0.0,0.0,100.0,netral,Keuangan Operasional Open Dm,"keuangan, operasional, open, dm, kampus, wa",Upah & Kesejahteraan,68
+68,16,12,10,38,42.1,26.3,31.6,negatif,Trend Trend Pengen Ikutan Trend Pengen Trend,"trend, trend pengen, ikutan trend, pengen trend, trendnya, mengikuti",Lainnya,69
+69,22,0,16,38,57.9,42.1,0.0,negatif,Fakta Bangettt Bukti Inii,"fakta, bangettt, bukti, inii, buktinya, realita",Lainnya,70
+70,4,1,33,38,10.5,86.8,2.6,positif,Jaga Mari Sehari Dalam,"jaga, mari, sehari, dalam, kadang, berharga",Lainnya,71
+71,17,14,6,37,45.9,16.2,37.8,negatif,Dikit Mirip Teriak Barengan,"dikit, mirip, teriak, barengan, hijau, tabung",Lainnya,72
+72,15,7,15,37,40.5,40.5,18.9,positif,Negeri Negeri Negeri Semoga Keluar Negeri Negeri,"negeri negeri, negeri semoga, keluar negeri, negeri, semoga, keluar",Migrasi & Ketenagakerjaan LN,73
+73,15,14,7,36,41.7,19.4,38.9,negatif,Pindah Negara Pindah Kanada Pengen Pindah,"pindah negara, pindah, kanada, pengen pindah, negara, aamiin iya",Migrasi & Ketenagakerjaan LN,74
+74,13,8,15,36,36.1,41.7,22.2,positif,Cinta Setara Sebelah Tangan Bertepuk,"cinta, setara, sebelah tangan, bertepuk, bertepuk sebelah, sebelah",Lainnya,75
+75,30,4,1,35,85.7,2.9,11.4,negatif,Pajak Harga Gaji Kebutuhan,"pajak, harga, gaji, kebutuhan, pensiun, penghasilan",Upah & Kesejahteraan,76
+76,29,4,2,35,82.9,5.7,11.4,negatif,Pekerjaan Pengalaman Susah Banget Pengalaman Kerja,"pekerjaan, pengalaman, susah banget, pengalaman kerja, kerja pengalaman, susah",Ketenagakerjaan,77
+77,0,0,35,35,0.0,100.0,0.0,positif,Pastikan Kompeten Nkri Tenaga Kerja,"pastikan, kompeten, nkri, tenaga kerja, tenaga, menuju",Ketenagakerjaan,78
+78,16,5,13,34,47.1,38.2,14.7,negatif,Kwkw Wkwkw Yes Mu,"kwkw, wkwkw, yes, mu, bersaing, cpt",Lainnya,79
+79,34,0,0,34,100.0,0.0,0.0,negatif,Koruptor Didanai Dibiayai Koruptor Dibiayai,"koruptor, didanai, dibiayai koruptor, dibiayai, korupsi, indonesiagelap",Kebijakan Pemerintah,80
+80,12,8,14,34,35.3,41.2,23.5,positif,Bismillah Bismillah Iya Muak Banget Iya Allah,"bismillah, bismillah iya, muak banget, iya allah, allah, tanggal",Lainnya,81
+81,8,17,8,33,24.2,24.2,51.5,netral,Australia Whv Anakku Bule,"australia, whv, anakku, bule, singapura, pingin",Migrasi & Ketenagakerjaan LN,82
+82,28,2,3,33,84.8,9.1,6.1,negatif,Banget Banget Sembuh Ajak Pengen,"banget banget, sembuh, ajak, pengen, banget, hatinya",Lainnya,83
+83,13,12,8,33,39.4,24.2,36.4,negatif,Pelan Kira Pelan Pelan Tanggapan,"pelan, kira, pelan pelan, tanggapan, gasih, yukk",Lainnya,84
+84,26,4,3,33,78.8,9.1,12.1,negatif,Cinta Cinta Negara Negara Negara Negara,"cinta, cinta negara, negara negara, negara, mikirin, rakyatnya",Lainnya,85
+85,22,7,3,32,68.8,9.4,21.9,negatif,Wowo Mental Tanah Dijajah,"wowo, mental, tanah, dijajah, krisis, darurat",Lainnya,86
+86,9,5,17,31,29.0,54.8,16.1,positif,Dream Mimpi Impian My Dream,"dream, mimpi, impian, my dream, my, have",Lainnya,87
+87,28,0,3,31,90.3,9.7,0.0,negatif,Kucing Yaallah Kalah Yaallah Pengen,"kucing, yaallah, kalah, yaallah pengen, ajak keluarga, banget pengen",Lainnya,88
+88,21,6,4,31,67.7,12.9,19.4,negatif,Kewarganegaraan Pindah Kewarganegaraan Pindah Laki,"kewarganegaraan, pindah kewarganegaraan, pindah, laki, keluar negeri, pny",Migrasi & Ketenagakerjaan LN,89
+89,28,0,2,30,93.3,6.7,0.0,negatif,Duit Duit Negara Negara Uang,"duit, duit negara, negara, uang, tabungan, simpan",Upah & Kesejahteraan,90
