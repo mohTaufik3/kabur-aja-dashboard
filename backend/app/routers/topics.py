@@ -17,6 +17,109 @@ def clean_nan(records):
                 record[key] = None
     return records
 
+def load_bps_file(filename):
+    path = os.path.join(CLEAN_BPS, filename)
+    try:
+        df = pd.read_csv(path)
+        return clean_nan(df.to_dict(orient='records'))
+    except:
+        return []
+
+def load_all_bps_data():
+    return {
+        # Upah & Kesejahteraan
+        'gaji_2024':             load_bps_file('gaji_2024.csv'),
+        'gaji_2025':             load_bps_file('gaji_2025.csv'),
+        # Ketenagakerjaan
+        'tpt_2024':              load_bps_file('tpt_2024.csv'),
+        'tpt_2025':              load_bps_file('tpt_2025.csv'),
+        'angkatan_kerja_2024':   load_bps_file('angkatan_kerja_umur_2024.csv'),
+        'angkatan_kerja_2025':   load_bps_file('angkatan_kerja_umur_2025.csv'),
+        'lapangan_kerja_2024':   load_bps_file('lapangan_pekerjaan_utama_2024.csv'),
+        'lapangan_kerja_2025':   load_bps_file('lapangan_pekerjaan_utama_2025.csv'),
+        # Pendidikan & Migrasi
+        'bukan_ak_2024':         load_bps_file('bukan_angkatan_kerja_umur_2024.csv'),
+        'bukan_ak_2025':         load_bps_file('bukan_angkatan_kerja_umur_2025.csv'),
+        'penduduk_15_2024':      load_bps_file('penduduk_15_keatas_2024.csv'),
+        'penduduk_15_2025':      load_bps_file('penduduk_15_keatas_2025.csv'),
+        # Sentimen Bangsa & Kebijakan
+        'pdrb_2024':             load_bps_file('pdrb_wilayah_2024.csv'),
+        'pdrb_2025':             load_bps_file('pdrb_wilayah_2025.csv'),
+    }
+
+CATEGORY_BPS_MAP = {
+    'Upah & Kesejahteraan': {
+        'label': 'Rata-rata Upah/Gaji per Sektor Ekonomi',
+        'insight': (
+            'Keluhan soal gaji rendah dan beban ekonomi di media sosial '
+            'divalidasi dengan data rata-rata upah riil BPS per sektor. '
+            'Sektor dengan upah rendah (pertanian, jasa) menjadi konteks '
+            'utama keresahan warganet.'
+        ),
+        'bps_keys': ['gaji_2024', 'gaji_2025']
+    },
+    'Ketenagakerjaan': {
+        'label': 'Tingkat Pengangguran & Lapangan Kerja',
+        'insight': (
+            'Keresahan soal sulitnya mencari kerja dan persaingan lapangan '
+            'kerja divalidasi dengan data TPT per provinsi, angkatan kerja '
+            'per golongan umur, dan distribusi pekerja per lapangan pekerjaan utama.'
+        ),
+        'bps_keys': ['tpt_2024', 'tpt_2025', 'angkatan_kerja_2024', 'angkatan_kerja_2025', 'lapangan_kerja_2024', 'lapangan_kerja_2025']
+    },
+    'Migrasi & Ketenagakerjaan LN': {
+        'label': 'Angkatan Kerja Usia Produktif & Populasi 15+',
+        'insight': (
+            'Minat bekerja dan migrasi ke luar negeri divalidasi dengan '
+            'komposisi angkatan kerja muda (15-24 tahun) dan total populasi '
+            'usia produktif. Kelompok umur muda mendominasi diskusi '
+            'kaburajadulu ke Jepang, Jerman, Australia, dan negara lainnya.'
+        ),
+        'bps_keys': ['angkatan_kerja_2024', 'angkatan_kerja_2025', 'penduduk_15_2024', 'penduduk_15_2025']
+    },
+    'Pendidikan': {
+        'label': 'Angkatan Kerja Muda & Populasi Bukan Angkatan Kerja',
+        'insight': (
+            'Keresahan soal pendidikan, belajar bahasa asing, dan beasiswa '
+            'divalidasi dengan data angkatan kerja muda (15-24 tahun) dan '
+            'populasi yang masih sekolah (bukan angkatan kerja). '
+            'Menggambarkan tekanan transisi dari pendidikan ke dunia kerja.'
+        ),
+        'bps_keys': ['angkatan_kerja_2024', 'angkatan_kerja_2025', 'bukan_ak_2024', 'bukan_ak_2025']
+    },
+    'Kebijakan Pemerintah': {
+        'label': 'Tingkat Pengangguran per Provinsi & PDRB Wilayah',
+        'insight': (
+            'Ketidakpercayaan terhadap pemerintah, DPR, dan kebijakan publik '
+            'divalidasi dengan kondisi ketenagakerjaan aktual per provinsi (TPT) '
+            'dan produktivitas ekonomi wilayah (PDRB). '
+            'Provinsi dengan TPT tinggi dan PDRB rendah cenderung menjadi '
+            'konteks keresahan terhadap kebijakan.'
+        ),
+        'bps_keys': ['tpt_2024', 'tpt_2025', 'pdrb_2024', 'pdrb_2025']
+    },
+    'Sentimen Bangsa': {
+        'label': 'Kondisi Ekonomi Makro & Ketenagakerjaan Nasional',
+        'insight': (
+            'Ekspresi kekecewaan terhadap kondisi Indonesia secara umum '
+            '(#IndonesiaGelap, negara sakit, krisis) divalidasi dengan '
+            'data makro ketenagakerjaan nasional: TPT, angkatan kerja, '
+            'dan distribusi lapangan pekerjaan sebagai cerminan kondisi '
+            'sosial-ekonomi yang memicu keresahan kolektif.'
+        ),
+        'bps_keys': ['tpt_2025', 'angkatan_kerja_2025', 'lapangan_kerja_2025']
+    },
+    'Lainnya': {
+        'label': 'Data Umum Ketenagakerjaan',
+        'insight': (
+            'Topik-topik dengan konteks campuran atau noise tinggi. '
+            'Data TPT nasional disertakan sebagai referensi umum '
+            'kondisi ketenagakerjaan Indonesia.'
+        ),
+        'bps_keys': ['tpt_2025']
+    }
+}
+
 def get_sample_comments():
     path_all_data = os.path.join(OUTPUT, "merged_topic_sentiment.csv")
     samples_dict = {}
@@ -59,60 +162,15 @@ def get_topics_with_bps():
     df_topics = pd.read_csv(path)
     df_topics = df_topics.sort_values('total', ascending=False)
 
-    bps_data = {}
-    for key, filename in {
-        'gaji_2024': 'gaji_2024.csv',
-        'gaji_2025': 'gaji_2025.csv',
-        'tpt_2024': 'tpt_2024.csv',
-        'tpt_2025': 'tpt_2025.csv',
-        'angkatan_kerja_2024': 'angkatan_kerja_umur_2024.csv',
-        'angkatan_kerja_2025': 'angkatan_kerja_umur_2025.csv',
-    }.items():
-        try:
-            df_temp = pd.read_csv(os.path.join(CLEAN_BPS, filename))
-            bps_data[key] = clean_nan(df_temp.to_dict(orient='records'))
-        except:
-            bps_data[key] = []
-
-    CATEGORY_BPS_MAP = {
-        'Upah & Kesejahteraan': {
-            'label': 'Rata-rata Upah/Gaji Nasional',
-            'insight': 'Keluhan gaji di media sosial dibandingkan data upah riil BPS',
-            'bps_keys': ['gaji_2024', 'gaji_2025']
-        },
-        'Ketenagakerjaan': {
-            'label': 'Tingkat Pengangguran & Angkatan Kerja',
-            'insight': 'Keresahan lapangan kerja dibandingkan data TPT dan angkatan kerja BPS',
-            'bps_keys': ['tpt_2024', 'tpt_2025', 'angkatan_kerja_2024', 'angkatan_kerja_2025']
-        },
-        'Migrasi & Ketenagakerjaan LN': {
-            'label': 'Angkatan Kerja Usia Produktif',
-            'insight': 'Minat migrasi ke luar negeri dibandingkan komposisi angkatan kerja muda BPS',
-            'bps_keys': ['angkatan_kerja_2024', 'angkatan_kerja_2025']
-        },
-        'Kebijakan Pemerintah': {
-            'label': 'Tingkat Pengangguran per Provinsi',
-            'insight': 'Ketidakpercayaan terhadap pemerintah dibandingkan kondisi ketenagakerjaan aktual',
-            'bps_keys': ['tpt_2024', 'tpt_2025']
-        },
-        'Pendidikan': {
-            'label': 'Angkatan Kerja Muda (15-24 tahun)',
-            'insight': 'Keresahan pendidikan dibandingkan data angkatan kerja usia muda BPS',
-            'bps_keys': ['angkatan_kerja_2024', 'angkatan_kerja_2025']
-        },
-        'Lainnya': {
-            'label': 'Data Umum Ketenagakerjaan',
-            'insight': 'Topik umum terkait kondisi ketenagakerjaan Indonesia',
-            'bps_keys': ['tpt_2025']
-        }
-    }
-
+    bps_data = load_all_bps_data()
     samples = get_sample_comments()
+
     result = []
     for _, row in df_topics.iterrows():
         category = row.get('bps_category', 'Lainnya')
         mapping = CATEGORY_BPS_MAP.get(category, CATEGORY_BPS_MAP['Lainnya'])
         relevant_bps = {key: bps_data.get(key, []) for key in mapping['bps_keys']}
+
         result.append({
             'topic_id':           int(row['topic_id_v2']),
             'topic_label':        str(row['topic_label']),

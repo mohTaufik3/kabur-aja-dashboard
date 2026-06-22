@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers import analyze, bps, topics 
+from app.routers import analyze, bps, topics
+from app.routers import sentiment_summary
 from app.models import get_sentiment_pipeline
 from dotenv import load_dotenv
 
@@ -20,9 +21,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(analyze.router, prefix="/api") 
+app.include_router(analyze.router, prefix="/api")
 app.include_router(bps.router)
 app.include_router(topics.router)
+app.include_router(sentiment_summary.router)
 
 @app.on_event("startup")
 async def startup_event():

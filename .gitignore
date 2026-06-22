@@ -23,8 +23,10 @@ dist-ssr
 *.sln
 *.sw?
 
-# Di file .gitignore (root project)
+# Backend
 backend/data/
+backend/model_indobert_finetuned/
 
+# Python
 __pycache__/
 *.pyc

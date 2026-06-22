@@ -1,13 +1,64 @@
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Users, TrendingDown, Minus, TrendingUp, ArrowRight, Sparkles } from 'lucide-react';
+import { Users, TrendingDown, Minus, TrendingUp, ArrowRight, Sparkles, Loader2 } from 'lucide-react';
 import SectionTitle from '../components/atoms/SectionTitle';
 import StatCard from '../components/molecules/StatCard';
 import Badge from '../components/atoms/Badge';
 import Card from '../components/atoms/Card';
-import { sentimentSummary, topTopics, sentimentDistribution, platformSources } from '../data/mockData';
 
 const DashboardPage = () => {
   const navigate = useNavigate();
+  const [summary, setSummary] = useState(null);
+  const [topics, setTopics] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const base = 'http://127.0.0.1:8000';
+    Promise.all([fetch(`${base}/api/sentiment/summary`).then((r) => r.json()), fetch(`${base}/api/topics/summary`).then((r) => r.json())])
+      .then(([summaryRes, topicsRes]) => {
+        setSummary(summaryRes);
+        setTopics(topicsRes.slice(0, 5));
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-100 gap-3">
+        <Loader2 className="animate-spin text-blue-500 w-10 h-10" />
+        <p className="text-sm text-gray-500 font-medium">Memuat data...</p>
+      </div>
+    );
+  }
+
+  const total = summary?.total || 0;
+  const negatif = summary?.negatif || 0;
+  const netral = summary?.netral || 0;
+  const positif = summary?.positif || 0;
+
+  const sentimentDistribution = [
+    { label: 'Negatif', value: negatif, color: 'bg-red-400' },
+    { label: 'Netral', value: netral, color: 'bg-slate-300' },
+    { label: 'Positif', value: positif, color: 'bg-emerald-400' },
+  ];
+
+  const platformSources = [
+    {
+      label: 'Platform X',
+      value: summary?.platform_counts?.X || 0,
+      colorText: 'text-blue-600',
+      colorBg: 'bg-blue-50',
+      colorSub: 'text-blue-400',
+    },
+    {
+      label: 'TikTok',
+      value: summary?.platform_counts?.TikTok || 0,
+      colorText: 'text-pink-500',
+      colorBg: 'bg-pink-50',
+      colorSub: 'text-pink-400',
+    },
+  ];
 
   return (
     <div>
@@ -25,10 +76,10 @@ const DashboardPage = () => {
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <StatCard label="Total Data" value={sentimentSummary.total} icon={Users} bgIcon="bg-blue-50" colorIcon="text-blue-400" />
-        <StatCard label="Negatif" value={sentimentSummary.negative} color="text-red-500" icon={TrendingDown} bgIcon="bg-red-50" colorIcon="text-red-400" />
-        <StatCard label="Netral" value={sentimentSummary.neutral} color="text-slate-400" icon={Minus} bgIcon="bg-slate-50" colorIcon="text-slate-300" />
-        <StatCard label="Positif" value={sentimentSummary.positive} color="text-emerald-500" icon={TrendingUp} bgIcon="bg-emerald-50" colorIcon="text-emerald-400" />
+        <StatCard label="Total Data" value={total} icon={Users} bgIcon="bg-blue-50" colorIcon="text-blue-400" />
+        <StatCard label="Negatif" value={negatif} color="text-red-500" icon={TrendingDown} bgIcon="bg-red-50" colorIcon="text-red-400" />
+        <StatCard label="Netral" value={netral} color="text-slate-400" icon={Minus} bgIcon="bg-slate-50" colorIcon="text-slate-300" />
+        <StatCard label="Positif" value={positif} color="text-emerald-500" icon={TrendingUp} bgIcon="bg-emerald-50" colorIcon="text-emerald-400" />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -40,18 +91,22 @@ const DashboardPage = () => {
             </span>
           </div>
           <div className="flex flex-col gap-4">
-            {topTopics.map((item, i) => (
-              <div key={i} className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <span className="text-xs font-semibold text-blue-300 w-5">{i + 1}</span>
-                  <span className="text-sm text-gray-700 font-medium">{item.topic}</span>
+            {topics.map((item, i) => {
+              const sentimentLabel = item.dominant_sentiment || 'netral';
+              const topicName = item.topic_label || `Topik #${item.topic_id_v2}`;
+              return (
+                <div key={i} className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <span className="text-xs font-semibold text-blue-300 w-5">{i + 1}</span>
+                    <span className="text-sm text-gray-700 font-medium capitalize">{topicName}</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="text-xs text-gray-400">{(item.total || 0).toLocaleString('id-ID')}</span>
+                    <Badge label={sentimentLabel} variant={sentimentLabel} />
+                  </div>
                 </div>
-                <div className="flex items-center gap-3">
-                  <span className="text-xs text-gray-400">{item.count.toLocaleString('id-ID')}</span>
-                  <Badge label={item.sentiment} variant={item.sentiment} />
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </Card>
 
@@ -59,7 +114,7 @@ const DashboardPage = () => {
           <h2 className="text-base font-semibold text-gray-700 mb-5">Distribusi Sentimen</h2>
           <div className="flex flex-col gap-4">
             {sentimentDistribution.map((item) => {
-              const pct = ((item.value / sentimentSummary.total) * 100).toFixed(1);
+              const pct = total > 0 ? ((item.value / total) * 100).toFixed(1) : '0.0';
               return (
                 <div key={item.label}>
                   <div className="flex justify-between text-sm mb-1.5">
