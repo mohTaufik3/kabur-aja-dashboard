@@ -1,0 +1,58 @@
+{
+  "confusion_matrix": [
+    [
+      248,
+      5,
+      4
+    ],
+    [
+      3,
+      60,
+      2
+    ],
+    [
+      2,
+      3,
+      73
+    ]
+  ],
+  "classes": [
+    "Negatif",
+    "Netral",
+    "Positif"
+  ],
+  "classification_report": {
+    "Negatif": {
+      "precision": 0.9802371541501976,
+      "recall": 0.9649805447470817,
+      "f1-score": 0.9725490196078431,
+      "support": 257.0
+    },
+    "Netral": {
+      "precision": 0.8823529411764706,
+      "recall": 0.9230769230769231,
+      "f1-score": 0.9022556390977443,
+      "support": 65.0
+    },
+    "Positif": {
+      "precision": 0.9240506329113924,
+      "recall": 0.9358974358974359,
+      "f1-score": 0.9299363057324841,
+      "support": 78.0
+    },
+    "accuracy": 0.9525,
+    "macro avg": {
+      "precision": 0.9288802427460202,
+      "recall": 0.9413183012404801,
+      "f1-score": 0.9349136548126905,
+      "support": 400.0
+    },
+    "weighted avg": {
+      "precision": 0.9533745979003999,
+      "recall": 0.9525,
+      "f1-score": 0.9528168660692571,
+      "support": 400.0
+    }
+  },
+  "test_size": 400
+}

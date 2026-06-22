@@ -103,3 +103,32 @@ def get_sentiment_samples():
             })
 
     return samples
+@router.get("/evaluation")
+def get_evaluation_results():
+    import json
+    path = os.path.join(RESEARCH_DATA, "output/evaluation_results.json")
+    if not os.path.exists(path):
+        raise HTTPException(status_code=404, detail="File evaluation_results.json tidak ditemukan.")
+    with open(path, 'r') as f:
+        data = json.load(f)
+    return data
+
+@router.get("/samples/refresh")
+def get_sentiment_samples_refresh():
+    import random
+    df = pd.read_csv(os.path.join(RESEARCH_DATA, "output/sentiment_results.csv"))
+    df = df[df['clean_text'].notna() & (df['clean_text'].str.strip() != '')]
+
+    samples = []
+    for sentiment in ['negatif', 'netral', 'positif']:
+        subset = df[df['sentiment'] == sentiment]
+        n = min(3, len(subset))
+        picked = subset.sample(n=n, random_state=random.randint(0, 99999))
+        for _, row in picked.iterrows():
+            samples.append({
+                'text':      str(row['clean_text']),
+                'sentiment': sentiment,
+                'platform':  str(row['platform']),
+            })
+
+    return samples

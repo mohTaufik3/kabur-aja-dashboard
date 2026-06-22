@@ -3,7 +3,7 @@ import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer, BarChart, Ba
 import SectionTitle from '../components/atoms/SectionTitle';
 import Card from '../components/atoms/Card';
 import Badge from '../components/atoms/Badge';
-import { Loader2 } from 'lucide-react';
+import { Loader2, RefreshCw } from 'lucide-react';
 
 const filterOptions = ['Semua', 'Positif', 'Netral', 'Negatif'];
 
@@ -18,19 +18,38 @@ export default function SentimentPage() {
   const [summary, setSummary] = useState(null);
   const [timeline, setTimeline] = useState([]);
   const [samples, setSamples] = useState([]);
+  const [evaluation, setEvaluation] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     const base = 'http://127.0.0.1:8000';
-    Promise.all([fetch(`${base}/api/sentiment/summary`).then((r) => r.json()), fetch(`${base}/api/sentiment/timeline`).then((r) => r.json()), fetch(`${base}/api/sentiment/samples`).then((r) => r.json())])
-      .then(([s, t, c]) => {
+    Promise.all([
+      fetch(`${base}/api/sentiment/summary`).then((r) => r.json()),
+      fetch(`${base}/api/sentiment/timeline`).then((r) => r.json()),
+      fetch(`${base}/api/sentiment/samples`).then((r) => r.json()),
+      fetch(`${base}/api/sentiment/evaluation`).then((r) => r.json()),
+    ])
+      .then(([s, t, c, e]) => {
         setSummary(s);
         setTimeline(t);
         setSamples(c);
+        setEvaluation(e);
         setLoading(false);
       })
       .catch(() => setLoading(false));
   }, []);
+
+  const handleRefreshSamples = () => {
+    setRefreshing(true);
+    fetch('http://127.0.0.1:8000/api/sentiment/samples/refresh')
+      .then((r) => r.json())
+      .then((data) => {
+        setSamples(data);
+        setRefreshing(false);
+      })
+      .catch(() => setRefreshing(false));
+  };
 
   if (loading) {
     return (
@@ -51,9 +70,19 @@ export default function SentimentPage() {
 
   const filteredComments = activeFilter === 'Semua' ? samples : samples.filter((c) => c.sentiment === activeFilter.toLowerCase());
 
+  const cm = evaluation?.confusion_matrix || [];
+  const classes = evaluation?.classes || [];
+  const report = evaluation?.classification_report || {};
+
+  const cmColors = [
+    ['bg-red-100', 'bg-red-50', 'bg-red-50'],
+    ['bg-slate-50', 'bg-slate-100', 'bg-slate-50'],
+    ['bg-emerald-50', 'bg-emerald-50', 'bg-emerald-100'],
+  ];
+
   return (
     <div>
-      <SectionTitle title="Analisis Sentimen" subtitle="Hasil klasifikasi sentimen menggunakan model IndoBERT pada data #KaburAjaDulu" />
+      <SectionTitle title="Analisis Sentimen" subtitle="Hasil klasifikasi sentimen menggunakan model IndoBERT fine-tuned pada data #KaburAjaDulu" />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         <Card>
@@ -107,13 +136,89 @@ export default function SentimentPage() {
         </ResponsiveContainer>
       </Card>
 
+      {evaluation && (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+          <Card>
+            <h2 className="text-base font-semibold text-gray-700 mb-1">Confusion Matrix</h2>
+            <p className="text-xs text-gray-400 mb-4">Evaluasi model IndoBERT fine-tuned pada {evaluation.test_size} data test</p>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm text-center">
+                <thead>
+                  <tr>
+                    <th className="p-2 text-xs text-gray-400 font-medium text-left">Aktual \ Prediksi</th>
+                    {classes.map((c) => (
+                      <th key={c} className="p-2 text-xs font-semibold text-gray-600">
+                        {c}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {cm.map((row, i) => (
+                    <tr key={i}>
+                      <td className="p-2 text-xs font-semibold text-gray-600 text-left">{classes[i]}</td>
+                      {row.map((val, j) => (
+                        <td key={j} className={`p-3 font-bold text-sm rounded ${i === j ? 'text-blue-700' : 'text-gray-400'} ${cmColors[i]?.[j] || 'bg-gray-50'}`}>
+                          {val}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <p className="text-xs text-gray-400 mt-3">Diagonal biru = prediksi benar. Off-diagonal = kesalahan klasifikasi.</p>
+          </Card>
+
+          <Card>
+            <h2 className="text-base font-semibold text-gray-700 mb-1">Metrik Evaluasi Model</h2>
+            <p className="text-xs text-gray-400 mb-4">
+              Accuracy keseluruhan: <span className="font-bold text-blue-600">{((report.accuracy || 0) * 100).toFixed(2)}%</span>
+            </p>
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-gray-100">
+                  <th className="text-left py-2 text-xs text-gray-400 font-medium">Kelas</th>
+                  <th className="text-center py-2 text-xs text-gray-400 font-medium">Precision</th>
+                  <th className="text-center py-2 text-xs text-gray-400 font-medium">Recall</th>
+                  <th className="text-center py-2 text-xs text-gray-400 font-medium">F1-Score</th>
+                  <th className="text-center py-2 text-xs text-gray-400 font-medium">Support</th>
+                </tr>
+              </thead>
+              <tbody>
+                {classes.map((cls) => (
+                  <tr key={cls} className="border-b border-gray-50">
+                    <td className="py-2.5 font-semibold text-gray-700">{cls}</td>
+                    <td className="py-2.5 text-center text-gray-600">{((report[cls]?.precision || 0) * 100).toFixed(1)}%</td>
+                    <td className="py-2.5 text-center text-gray-600">{((report[cls]?.recall || 0) * 100).toFixed(1)}%</td>
+                    <td className="py-2.5 text-center font-semibold text-blue-600">{((report[cls]?.['f1-score'] || 0) * 100).toFixed(1)}%</td>
+                    <td className="py-2.5 text-center text-gray-400">{report[cls]?.support || 0}</td>
+                  </tr>
+                ))}
+                <tr className="bg-blue-50">
+                  <td className="py-2.5 font-semibold text-blue-700">Weighted Avg</td>
+                  <td className="py-2.5 text-center font-semibold text-blue-700">{((report['weighted avg']?.precision || 0) * 100).toFixed(1)}%</td>
+                  <td className="py-2.5 text-center font-semibold text-blue-700">{((report['weighted avg']?.recall || 0) * 100).toFixed(1)}%</td>
+                  <td className="py-2.5 text-center font-semibold text-blue-700">{((report['weighted avg']?.['f1-score'] || 0) * 100).toFixed(1)}%</td>
+                  <td className="py-2.5 text-center font-semibold text-blue-700">{report['weighted avg']?.support || 0}</td>
+                </tr>
+              </tbody>
+            </table>
+          </Card>
+        </div>
+      )}
+
       <Card>
         <div className="flex items-center justify-between mb-5">
           <div>
             <h2 className="text-base font-semibold text-gray-700">Contoh Komentar</h2>
             <p className="text-xs text-gray-400 mt-0.5">Sample data dari hasil klasifikasi IndoBERT</p>
           </div>
-          <div className="flex gap-2">
+          <div className="flex items-center gap-2">
+            <button onClick={handleRefreshSamples} disabled={refreshing} className="text-xs px-3 py-1.5 rounded-lg font-medium transition-colors bg-blue-50 text-blue-600 hover:bg-blue-100 flex items-center gap-1 disabled:opacity-50">
+              <RefreshCw size={12} className={refreshing ? 'animate-spin' : ''} />
+              Refresh
+            </button>
             {filterOptions.map((f) => (
               <button key={f} onClick={() => setActiveFilter(f)} className={`text-xs px-3 py-1.5 rounded-lg font-medium transition-colors ${activeFilter === f ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'}`}>
                 {f}
@@ -121,7 +226,6 @@ export default function SentimentPage() {
             ))}
           </div>
         </div>
-
         <div className="flex flex-col gap-3">
           {filteredComments.length > 0 ? (
             filteredComments.map((item, i) => (
