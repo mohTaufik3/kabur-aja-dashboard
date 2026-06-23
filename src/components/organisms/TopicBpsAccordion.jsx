@@ -1,25 +1,27 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import TopicBpsRow from '../molecules/TopicBpsRow';
-
-const CATEGORIES = ['Semua', 'Ketenagakerjaan', 'Upah & Kesejahteraan', 'Migrasi & Ketenagakerjaan LN', 'Kebijakan Pemerintah', 'Pendidikan', 'Lainnya'];
 
 export default function TopicBpsAccordion({ topics }) {
   const [expanded, setExpanded] = useState(null);
   const [activeCategory, setActiveCategory] = useState('Semua');
 
+  // Kategori dinamis dari data, tidak hardcode
+  const categories = useMemo(() => {
+    const cats = [...new Set(topics.map((t) => t.bps_category))].sort();
+    return ['Semua', ...cats];
+  }, [topics]);
+
   const filtered = topics.filter((t) => activeCategory === 'Semua' || t.bps_category === activeCategory).slice(0, 20);
 
   return (
     <div>
-      {/* Header */}
       <div className="mb-2">
         <h2 className="text-base font-semibold text-gray-700">Korelasi Topik BERTopic dengan Data BPS</h2>
         <p className="text-xs text-gray-400 mt-0.5 mb-4">Setiap topik percakapan publik dikaitkan dengan data BPS yang relevan sebagai validasi sosial-ekonomi</p>
       </div>
 
-      {/* Filter */}
       <div className="flex flex-wrap gap-2 mb-4">
-        {CATEGORIES.map((cat) => (
+        {categories.map((cat) => (
           <button
             key={cat}
             onClick={() => setActiveCategory(cat)}
@@ -30,7 +32,6 @@ export default function TopicBpsAccordion({ topics }) {
         ))}
       </div>
 
-      {/* Daftar topik */}
       <div className="flex flex-col gap-3">
         {filtered.map((topic) => (
           <TopicBpsRow key={topic.topic_id} topic={topic} isOpen={expanded === topic.topic_id} onToggle={() => setExpanded(expanded === topic.topic_id ? null : topic.topic_id)} />
